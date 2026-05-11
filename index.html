@@ -3,28 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Flow Meditation</title>
+    <title>Zen Flow - Precision Tracking</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ffa502 100%);
-            --card-bg: rgba(255, 255, 255, 0.95);
-            --text-primary: #2c3e50;
-            --accent: #ff6b6b;
-            --accent-secondary: #ffa502;
-            --glass-border: rgba(255, 107, 107, 0.2);
-            --circle-bg: radial-gradient(circle, #ff6b6b 0%, rgba(255, 107, 107, 0.3) 70%);
-            --danger: #e74c3c;
-        }
-
-        [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-            --card-bg: rgba(30, 30, 45, 0.95);
-            --text-primary: #ecf0f1;
-            --accent: #ff6b6b;
-            --accent-secondary: #ffa502;
-            --glass-border: rgba(255, 107, 107, 0.2);
-            --circle-bg: radial-gradient(circle, #ff6b6b 0%, rgba(255, 107, 107, 0.3) 70%);
+            --bg-gradient: linear-gradient(135deg, #0d0f12 0%, #1a1d21 100%);
+            --card-bg: rgba(22, 25, 29, 0.98);
+            --text-primary: #ffffff;
+            --accent: #4cc9f0;
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --danger: #ff7675;
         }
 
         body {
@@ -36,242 +24,236 @@
             align-items: center;
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
-            transition: all 0.5s ease;
             padding: 20px;
-        }
-
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--card-bg);
-            padding: 10px 15px;
-            border-radius: 50px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
-            font-size: 0.8rem;
-            cursor: pointer;
-            z-index: 100;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .container {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 2px solid var(--glass-border);
-            border-radius: 30px;
+            backdrop-filter: blur(60px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
             padding: 2.5rem;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 380px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
             text-align: center;
         }
 
-        h1 { 
-            font-weight: 600; 
-            letter-spacing: 2px; 
-            text-transform: uppercase; 
-            margin-top: 0; 
-            margin-bottom: 1.5rem;
-            color: var(--accent);
-            font-size: 1.8rem;
-        }
-
-        .stats-summary {
+        .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
             gap: 12px;
             margin-bottom: 20px;
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 165, 2, 0.1));
-            border-radius: 20px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 8px;
+            border-radius: 18px;
             border: 1px solid var(--glass-border);
+            transition: 0.3s;
         }
 
-        .stat-item {
-            padding: 12px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 15px;
-            border: 1px solid var(--glass-border);
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--accent);
         }
 
-        .stat-value {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--accent);
-            display: block;
+        .stat-value { 
+            display: block; 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--accent); 
         }
-
-        .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #666;
+        
+        .stat-label { 
+            font-size: 0.6rem; 
+            text-transform: uppercase; 
+            color: #888; 
+            letter-spacing: 1px; 
             margin-top: 4px;
-            font-weight: 600;
         }
 
         .circle-container {
-            position: relative; 
-            height: 160px; 
+            position: relative;
+            height: 160px;
             display: flex;
-            justify-content: center; 
-            align-items: center; 
+            justify-content: center;
+            align-items: center;
             margin: 20px 0;
         }
 
         .breathing-circle {
-            width: 100px; 
-            height: 100px; 
-            background: var(--circle-bg);
-            opacity: 0.7; 
-            border-radius: 50%; 
-            filter: blur(8px);
-            transition: transform 4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
-            box-shadow: 0 0 40px rgba(255, 107, 107, 0.5);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, var(--accent) 0%, rgba(76, 201, 240, 0) 70%);
+            opacity: 0.6;
+            border-radius: 50%;
+            filter: blur(6px);
+            transition: transform 4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.3);
         }
 
         .breathing-circle.expand { 
-            transform: scale(1.6);
-            opacity: 0.9;
+            transform: scale(1.8); 
+            opacity: 0.8;
         }
 
         .breathing-text { 
             position: absolute; 
             font-size: 1rem; 
-            font-weight: 700; 
+            font-weight: 600; 
+            letter-spacing: 2px; 
+            text-transform: uppercase;
             color: var(--accent);
-            letter-spacing: 1px;
         }
 
         .timer-display { 
-            font-size: 4.5rem; 
+            font-size: 5rem; 
             font-weight: 700; 
-            margin: 15px 0; 
+            margin: 10px 0; 
+            font-variant-numeric: tabular-nums; 
             color: var(--accent);
-            font-variant-numeric: tabular-nums;
         }
 
         .controls { 
             display: flex; 
-            flex-direction: column;
+            flex-direction: column; 
+            gap: 15px; 
+            margin-bottom: 20px; 
+        }
+        
+        .input-row { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
             gap: 12px; 
-            margin-bottom: 20px;
+            font-size: 0.9rem; 
+            color: #999;
         }
-
-        .input-group {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            align-items: center;
-        }
-
+        
         input {
-            width: 70px; 
-            padding: 12px; 
-            border-radius: 12px; 
-            border: 2px solid var(--glass-border);
-            background: rgba(255, 107, 107, 0.1); 
-            color: var(--text-primary); 
+            width: 70px;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
             text-align: center;
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            transition: 0.2s;
+            transition: 0.3s;
         }
 
         input:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+            background: rgba(76, 201, 240, 0.1);
+            box-shadow: 0 0 15px rgba(76, 201, 240, 0.2);
         }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
+        
+        .btn-group { 
+            display: flex; 
+            gap: 12px; 
         }
 
         button {
             flex: 1;
             background: var(--accent);
-            color: white;
+            color: #000;
             border: none;
-            padding: 14px 20px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 15px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.3s;
-            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            font-size: 0.95rem;
         }
 
         button:hover {
             opacity: 0.9;
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            box-shadow: 0 8px 25px rgba(76, 201, 240, 0.3);
         }
 
         button:active {
             transform: translateY(0);
         }
-
+        
         #resetBtn { 
-            background: var(--danger);
+            background: transparent; 
+            border: 1.5px solid rgba(255, 118, 117, 0.6); 
+            color: var(--danger);
+        }
+
+        #resetBtn:hover {
+            background: rgba(255, 118, 117, 0.1);
+            border-color: var(--danger);
+            box-shadow: 0 8px 25px rgba(255, 118, 117, 0.2);
         }
 
         .history-section {
-            background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 165, 2, 0.08));
+            background: rgba(0, 0, 0, 0.5);
             border-radius: 20px;
             padding: 18px;
             text-align: left;
             font-size: 0.85rem;
+            border: 1px solid var(--glass-border);
             max-height: 200px;
             overflow-y: auto;
-            border: 1px solid var(--glass-border);
         }
 
         .history-header {
-            font-weight: 700;
-            color: var(--accent);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 8px;
         }
 
-        .clear-history-btn {
-            background: transparent;
-            color: var(--danger);
-            border: 1px solid var(--danger);
-            padding: 6px 12px;
+        .history-header span {
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .clear-btn {
             font-size: 0.7rem;
-            width: auto;
-            flex: none;
+            color: var(--danger);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            background: none;
+            border: 1px solid rgba(255, 118, 117, 0.4);
+            padding: 6px 12px;
+            border-radius: 8px;
+            transition: 0.3s;
         }
 
-        .clear-history-btn:hover {
-            background: var(--danger);
-            color: white;
+        .clear-btn:hover {
+            background: rgba(255, 118, 117, 0.1);
+            border-color: var(--danger);
         }
-
-        ul { 
-            list-style: none; 
-            padding: 0; 
-            margin: 0; 
+        
+        #historyList { 
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
         li { 
             display: flex; 
             justify-content: space-between; 
-            padding: 10px 0; 
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            color: var(--text-primary);
+            padding: 8px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            color: #ffffff;
         }
 
         li:last-child {
@@ -279,101 +261,51 @@
         }
 
         li span:last-child {
-            font-weight: 600;
             color: var(--accent);
-        }
-
-        .switch { 
-            position: relative; 
-            display: inline-block; 
-            width: 34px; 
-            height: 20px; 
-        }
-
-        .switch input { 
-            opacity: 0; 
-            width: 0; 
-            height: 0; 
-        }
-
-        .slider { 
-            position: absolute; 
-            cursor: pointer; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            bottom: 0; 
-            background-color: #ccc; 
-            transition: .4s; 
-            border-radius: 34px; 
-        }
-
-        .slider:before { 
-            position: absolute; 
-            content: ""; 
-            height: 14px; 
-            width: 14px; 
-            left: 3px; 
-            bottom: 3px; 
-            background-color: white; 
-            transition: .4s; 
-            border-radius: 50%; 
-        }
-
-        input:checked + .slider { 
-            background-color: var(--accent); 
-        }
-
-        input:checked + .slider:before { 
-            transform: translateX(14px); 
+            font-weight: 600;
         }
 
         @media (max-width: 480px) {
             .container {
-                padding: 1.5rem;
-                max-width: 100%;
-            }
-
-            h1 {
-                font-size: 1.4rem;
+                padding: 1.8rem;
+                border-radius: 30px;
             }
 
             .timer-display {
-                font-size: 3.5rem;
+                font-size: 4rem;
             }
 
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-                font-size: 0.7rem;
+            .stat-value {
+                font-size: 1rem;
+            }
+
+            input {
+                width: 60px;
+                font-size: 1rem;
+                padding: 10px;
+            }
+
+            button {
+                padding: 12px;
+                font-size: 0.85rem;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="theme-toggle">
-        <label class="switch">
-            <input type="checkbox" id="darkModeToggle">
-            <span class="slider"></span>
-        </label>
-        <span>Dark</span>
-    </div>
-
     <div class="container">
-        <h1>🧘 Zen Flow</h1>
-
-        <div class="stats-summary">
-            <div class="stat-item">
+        <div class="stats-grid">
+            <div class="stat-card">
                 <span class="stat-value" id="streakVal">0</span>
                 <span class="stat-label">Streak</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-value" id="sessionCount">0</span>
+            <div class="stat-card">
+                <span class="stat-value" id="totalSessVal">0</span>
                 <span class="stat-label">Sessions</span>
             </div>
-            <div class="stat-item">
-                <span class="stat-value" id="totalTimeVal">0m</span>
+            <div class="stat-card">
+                <span class="stat-value" id="totalTimeVal">00:00</span>
                 <span class="stat-label">Total Time</span>
             </div>
         </div>
@@ -386,9 +318,11 @@
         <div class="timer-display" id="display">05:00</div>
         
         <div class="controls">
-            <div class="input-group">
-                <input type="number" id="minutes" value="5" min="1" max="60">
-                <span style="font-weight: 600;">minutes</span>
+            <div class="input-row">
+                <input type="number" id="minutes" value="5" min="0"> 
+                <span>min</span>
+                <input type="number" id="secondsInput" value="0" min="0"> 
+                <span>sec</span>
             </div>
             
             <div class="btn-group">
@@ -399,8 +333,8 @@
 
         <div class="history-section">
             <div class="history-header">
-                <span>Session Logs</span>
-                <button class="clear-history-btn" id="clearHistoryBtn">Clear</button>
+                <span>Logs (M:S)</span>
+                <button class="clear-btn" id="clearHistoryBtn">Clear</button>
             </div>
             <ul id="historyList"></ul>
         </div>
@@ -414,109 +348,27 @@
         let countdown;
         let breathingInterval;
         let isMeditating = false;
-        let currentStreak = 0;
-        let lastSessionDate = null;
 
         const display = document.getElementById('display');
-        const minutesInput = document.getElementById('minutes');
-        const startBtn = document.getElementById('startBtn');
-        const resetBtn = document.getElementById('resetBtn');
+        const minInput = document.getElementById('minutes');
+        const secInput = document.getElementById('secondsInput');
         const circle = document.getElementById('circle');
         const breathingText = document.getElementById('breathingText');
-        const historyList = document.getElementById('historyList');
         const gong = document.getElementById('gong');
-        const themeToggle = document.getElementById('darkModeToggle');
-        const streakVal = document.getElementById('streakVal');
-        const sessionCount = document.getElementById('sessionCount');
-        const totalTimeVal = document.getElementById('totalTimeVal');
 
-        // Theme toggle
-        themeToggle.addEventListener('change', () => {
-            document.body.setAttribute('data-theme', themeToggle.checked ? 'dark' : 'light');
-            localStorage.setItem('theme', themeToggle.checked ? 'dark' : 'light');
-        });
-
-        // Load saved theme
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        themeToggle.checked = savedTheme === 'dark';
-        document.body.setAttribute('data-theme', savedTheme);
-
-        function formatTime(seconds) {
-            const m = Math.floor(seconds / 60);
-            const s = Math.floor(seconds % 60);
-            return `${m}:${s < 10 ? '0' : ''}${s}`;
+        function formatTime(totalSeconds) {
+            const m = Math.floor(totalSeconds / 60);
+            const s = Math.floor(totalSeconds % 60);
+            return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
         }
 
         function updateDisplay() {
             if (isMeditating) return;
-            const totalSeconds = parseInt(minutesInput.value || 5) * 60;
+            const totalSeconds = (parseInt(minInput.value) || 0) * 60 + (parseInt(secInput.value) || 0);
             display.textContent = formatTime(totalSeconds);
         }
 
-        minutesInput.addEventListener('input', updateDisplay);
-
-        function startMeditation(minutes) {
-            isMeditating = true;
-            const totalSeconds = minutes * 60;
-            
-            // Play gong sound
-            gong.currentTime = 0;
-            gong.play().catch(e => console.log("Gong play failed:", e));
-
-            // Start breathing animation
-            let inhale = true;
-            breathingText.textContent = "Inhale";
-            circle.classList.add('expand');
-            
-            breathingInterval = setInterval(() => {
-                inhale = !inhale;
-                breathingText.textContent = inhale ? "Inhale" : "Exhale";
-                inhale ? circle.classList.add('expand') : circle.classList.remove('expand');
-            }, 4000);
-
-            // Start countdown
-            const then = Date.now() + totalSeconds * 1000;
-            countdown = setInterval(() => {
-                const left = Math.round((then - Date.now()) / 1000);
-                if (left < 0) { 
-                    stopMeditation(true, minutes); 
-                    return; 
-                }
-                display.textContent = formatTime(left);
-            }, 1000);
-        }
-
-        function stopMeditation(completed, minutes) {
-            clearInterval(countdown);
-            clearInterval(breathingInterval);
-            isMeditating = false;
-            circle.classList.remove('expand');
-            breathingText.textContent = completed ? "✨ Peace" : "Ready";
-
-            if (completed) {
-                // Play gong at the end
-                gong.currentTime = 0;
-                gong.play().catch(e => console.log("Gong play failed:", e));
-                
-                // Save session
-                saveSession(minutes);
-            }
-            
-            updateDisplay();
-        }
-
-        function saveSession(minutes) {
-            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
-            const today = new Date().toLocaleDateString();
-            
-            history.push({
-                date: today,
-                duration: minutes
-            });
-            
-            localStorage.setItem('medHistory', JSON.stringify(history));
-            updateStats();
-        }
+        [minInput, secInput].forEach(i => i.addEventListener('input', updateDisplay));
 
         function calculateStreak() {
             const history = JSON.parse(localStorage.getItem('medHistory')) || [];
@@ -540,26 +392,80 @@
             return streak;
         }
 
+        function startMeditation(total) {
+            isMeditating = true;
+            gong.currentTime = 0;
+            gong.play().catch(e => console.log("Gong play failed:", e));
+
+            let inhale = true;
+            breathingText.textContent = "Inhale";
+            circle.classList.add('expand');
+            breathingInterval = setInterval(() => {
+                inhale = !inhale;
+                breathingText.textContent = inhale ? "Inhale" : "Exhale";
+                inhale ? circle.classList.add('expand') : circle.classList.remove('expand');
+            }, 4000);
+
+            const then = Date.now() + total * 1000;
+            countdown = setInterval(() => {
+                const left = Math.round((then - Date.now()) / 1000);
+                if (left < 0) { stopMeditation(true, total); return; }
+                display.textContent = formatTime(left);
+            }, 1000);
+        }
+
+        function stopMeditation(completed, total) {
+            clearInterval(countdown);
+            clearInterval(breathingInterval);
+            isMeditating = false;
+            circle.classList.remove('expand');
+            breathingText.textContent = completed ? "✨ Peace" : "Ready";
+            updateDisplay();
+
+            if (completed) {
+                gong.currentTime = 0;
+                gong.play().catch(e => console.log("Gong play failed:", e));
+                saveToHistory(total);
+            }
+        }
+
+        function saveToHistory(totalSecs) {
+            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
+            history.push({ 
+                date: new Date().toLocaleDateString(), 
+                duration: totalSecs
+            });
+            localStorage.setItem('medHistory', JSON.stringify(history));
+            updateStats();
+        }
+
         function updateStats() {
             const history = JSON.parse(localStorage.getItem('medHistory')) || [];
-            
-            historyList.innerHTML = '';
-            let totalMinutes = 0;
+            const list = document.getElementById('historyList');
+            list.innerHTML = '';
+            let totalSecondsAccumulated = 0;
             
             history.slice().reverse().forEach(entry => {
-                totalMinutes += entry.duration;
+                totalSecondsAccumulated += entry.duration;
                 const li = document.createElement('li');
-                li.innerHTML = `<span>${entry.date}</span> <span>${entry.duration} min</span>`;
-                historyList.appendChild(li);
+                li.innerHTML = `<span>${entry.date}</span> <span>${formatTime(entry.duration)}</span>`;
+                list.appendChild(li);
             });
 
             const streak = calculateStreak();
-            streakVal.textContent = streak;
-            sessionCount.textContent = history.length;
-            totalTimeVal.textContent = totalMinutes + 'm';
+            document.getElementById('streakVal').textContent = streak;
+            document.getElementById('totalSessVal').textContent = history.length;
+            document.getElementById('totalTimeVal').textContent = formatTime(totalSecondsAccumulated);
         }
 
-        startBtn.addEventListener('click', () => {
+        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+            if(confirm("Clear history?")) { 
+                localStorage.removeItem('medHistory'); 
+                updateStats(); 
+            }
+        });
+
+        document.getElementById('startBtn').addEventListener('click', () => {
             if (isMeditating) return;
             
             // Prime audio
@@ -568,31 +474,11 @@
                 gong.currentTime = 0;
             }).catch(e => console.log("Audio unlock failed:", e));
 
-            const minutes = parseInt(minutesInput.value) || 5;
-            if (minutes > 0) {
-                startMeditation(minutes);
-            }
+            const total = (parseInt(minInput.value)||0)*60 + (parseInt(secInput.value)||0);
+            if (total > 0) startMeditation(total);
         });
 
-        resetBtn.addEventListener('click', () => {
-            clearInterval(countdown);
-            clearInterval(breathingInterval);
-            isMeditating = false;
-            circle.classList.remove('expand');
-            breathingText.textContent = "Ready";
-            gong.pause();
-            updateDisplay();
-        });
-
-        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
-            if(confirm("Clear all session history? This cannot be undone.")) {
-                localStorage.removeItem('medHistory');
-                updateStats();
-            }
-        });
-
-        // Initialize
-        updateDisplay();
+        document.getElementById('resetBtn').addEventListener('click', () => stopMeditation(false));
         updateStats();
     </script>
 </body>
