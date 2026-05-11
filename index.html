@@ -7,21 +7,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-            --card-bg: rgba(255, 255, 255, 0.8);
+            --bg-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 50%, #ffa502 100%);
+            --card-bg: rgba(255, 255, 255, 0.95);
             --text-primary: #2c3e50;
-            --accent: #5e72e4;
-            --glass-border: rgba(255, 255, 255, 0.4);
-            --circle-bg: radial-gradient(circle, #5e72e4 0%, rgba(255,255,255,0) 70%);
+            --accent: #ff6b6b;
+            --accent-secondary: #ffa502;
+            --glass-border: rgba(255, 107, 107, 0.2);
+            --circle-bg: radial-gradient(circle, #ff6b6b 0%, rgba(255, 107, 107, 0.3) 70%);
+            --danger: #e74c3c;
         }
 
         [data-theme="dark"] {
-            --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-            --card-bg: rgba(30, 30, 35, 0.85);
+            --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            --card-bg: rgba(30, 30, 45, 0.95);
             --text-primary: #ecf0f1;
-            --accent: #4facfe;
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --circle-bg: radial-gradient(circle, #4facfe 0%, rgba(255,255,255,0) 70%);
+            --accent: #ff6b6b;
+            --accent-secondary: #ffa502;
+            --glass-border: rgba(255, 107, 107, 0.2);
+            --circle-bg: radial-gradient(circle, #ff6b6b 0%, rgba(255, 107, 107, 0.3) 70%);
         }
 
         body {
@@ -34,6 +37,7 @@
             font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             transition: all 0.5s ease;
+            padding: 20px;
         }
 
         .theme-toggle {
@@ -51,62 +55,299 @@
             font-size: 0.8rem;
             cursor: pointer;
             z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
         .container {
             background: var(--card-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
+            border: 2px solid var(--glass-border);
             border-radius: 30px;
             padding: 2.5rem;
-            width: 380px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
             text-align: center;
         }
 
-        h1 { font-weight: 300; letter-spacing: 2px; text-transform: uppercase; margin-top: 0; margin-bottom: 2rem; }
+        h1 { 
+            font-weight: 600; 
+            letter-spacing: 2px; 
+            text-transform: uppercase; 
+            margin-top: 0; 
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+            font-size: 1.8rem;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 165, 2, 0.1));
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-item {
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-top: 4px;
+            font-weight: 600;
+        }
 
         .circle-container {
-            position: relative; height: 160px; display: flex;
-            justify-content: center; align-items: center; margin: 20px 0;
+            position: relative; 
+            height: 160px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            margin: 20px 0;
         }
+
         .breathing-circle {
-            width: 80px; height: 80px; background: var(--circle-bg);
-            opacity: 0.6; border-radius: 50%; filter: blur(4px);
+            width: 100px; 
+            height: 100px; 
+            background: var(--circle-bg);
+            opacity: 0.7; 
+            border-radius: 50%; 
+            filter: blur(8px);
             transition: transform 4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+            box-shadow: 0 0 40px rgba(255, 107, 107, 0.5);
         }
-        .breathing-circle.expand { transform: scale(1.8); }
-        .breathing-text { position: absolute; font-size: 0.9rem; font-weight: 600; }
 
-        .timer-display { font-size: 4rem; font-weight: 600; margin: 10px 0; }
+        .breathing-circle.expand { 
+            transform: scale(1.6);
+            opacity: 0.9;
+        }
 
-        .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; }
+        .breathing-text { 
+            position: absolute; 
+            font-size: 1rem; 
+            font-weight: 700; 
+            color: var(--accent);
+            letter-spacing: 1px;
+        }
+
+        .timer-display { 
+            font-size: 4.5rem; 
+            font-weight: 700; 
+            margin: 15px 0; 
+            color: var(--accent);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .controls { 
+            display: flex; 
+            flex-direction: column;
+            gap: 12px; 
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+
         input {
-            width: 60px; padding: 12px; border-radius: 12px; border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.2); color: var(--text-primary); text-align: center;
+            width: 70px; 
+            padding: 12px; 
+            border-radius: 12px; 
+            border: 2px solid var(--glass-border);
+            background: rgba(255, 107, 107, 0.1); 
+            color: var(--text-primary); 
+            text-align: center;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: 0.2s;
         }
+
+        input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+        }
+
         button {
-            background: var(--accent); color: white; border: none; padding: 12px 20px;
-            border-radius: 12px; font-weight: 600; cursor: pointer; transition: 0.2s;
+            flex: 1;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        button:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #resetBtn { 
+            background: var(--danger);
+        }
 
         .history-section {
-            background: rgba(0,0,0,0.05); border-radius: 20px; padding: 15px;
-            text-align: left; font-size: 0.85rem; max-height: 180px; overflow-y: auto;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.08), rgba(255, 165, 2, 0.08));
+            border-radius: 20px;
+            padding: 18px;
+            text-align: left;
+            font-size: 0.85rem;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid var(--glass-border);
         }
-        ul { list-style: none; padding: 0; margin: 10px 0; }
-        li { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(0,0,0,0.05); }
-        
-        .secondary-btn { background: #95a5a6; margin-top: 10px; width: 100%; font-size: 0.7rem; }
 
-        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
-        .switch input { opacity: 0; width: 0; height: 0; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px; }
-        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--accent); }
-        input:checked + .slider:before { transform: translateX(14px); }
+        .history-header {
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-history-btn {
+            background: transparent;
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            padding: 6px 12px;
+            font-size: 0.7rem;
+            width: auto;
+            flex: none;
+        }
+
+        .clear-history-btn:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        ul { 
+            list-style: none; 
+            padding: 0; 
+            margin: 0; 
+        }
+
+        li { 
+            display: flex; 
+            justify-content: space-between; 
+            padding: 10px 0; 
+            border-bottom: 1px solid rgba(0,0,0,0.08);
+            color: var(--text-primary);
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        li span:last-child {
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .switch { 
+            position: relative; 
+            display: inline-block; 
+            width: 34px; 
+            height: 20px; 
+        }
+
+        .switch input { 
+            opacity: 0; 
+            width: 0; 
+            height: 0; 
+        }
+
+        .slider { 
+            position: absolute; 
+            cursor: pointer; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            bottom: 0; 
+            background-color: #ccc; 
+            transition: .4s; 
+            border-radius: 34px; 
+        }
+
+        .slider:before { 
+            position: absolute; 
+            content: ""; 
+            height: 14px; 
+            width: 14px; 
+            left: 3px; 
+            bottom: 3px; 
+            background-color: white; 
+            transition: .4s; 
+            border-radius: 50%; 
+        }
+
+        input:checked + .slider { 
+            background-color: var(--accent); 
+        }
+
+        input:checked + .slider:before { 
+            transform: translateX(14px); 
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+                max-width: 100%;
+            }
+
+            h1 {
+                font-size: 1.4rem;
+            }
+
+            .timer-display {
+                font-size: 3.5rem;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                font-size: 0.7rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -116,11 +357,26 @@
             <input type="checkbox" id="darkModeToggle">
             <span class="slider"></span>
         </label>
-        <span>Dark Mode</span>
+        <span>Dark</span>
     </div>
 
     <div class="container">
-        <h1>Zen Flow</h1>
+        <h1>🧘 Zen Flow</h1>
+
+        <div class="stats-summary">
+            <div class="stat-item">
+                <span class="stat-value" id="streakVal">0</span>
+                <span class="stat-label">Streak</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="sessionCount">0</span>
+                <span class="stat-label">Sessions</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value" id="totalTimeVal">0m</span>
+                <span class="stat-label">Total Time</span>
+            </div>
+        </div>
 
         <div class="circle-container">
             <div class="breathing-circle" id="circle"></div>
@@ -130,16 +386,23 @@
         <div class="timer-display" id="display">05:00</div>
         
         <div class="controls">
-            <input type="number" id="minutes" value="5" min="1">
-            <button id="startBtn">Start Session</button>
-            <button id="resetBtn" style="background:#e74c3c">Reset</button>
+            <div class="input-group">
+                <input type="number" id="minutes" value="5" min="1" max="60">
+                <span style="font-weight: 600;">minutes</span>
+            </div>
+            
+            <div class="btn-group">
+                <button id="startBtn">Begin</button>
+                <button id="resetBtn">Reset</button>
+            </div>
         </div>
 
         <div class="history-section">
-            <strong>Session History</strong>
-            <p>Total Meditation: <span id="totalTime">0</span>m</p>
+            <div class="history-header">
+                <span>Session Logs</span>
+                <button class="clear-history-btn" id="clearHistoryBtn">Clear</button>
+            </div>
             <ul id="historyList"></ul>
-            <button id="clearHistory" class="secondary-btn">Clear History</button>
         </div>
     </div>
 
@@ -151,6 +414,8 @@
         let countdown;
         let breathingInterval;
         let isMeditating = false;
+        let currentStreak = 0;
+        let lastSessionDate = null;
 
         const display = document.getElementById('display');
         const minutesInput = document.getElementById('minutes');
@@ -159,116 +424,176 @@
         const circle = document.getElementById('circle');
         const breathingText = document.getElementById('breathingText');
         const historyList = document.getElementById('historyList');
-        const totalTimeDisplay = document.getElementById('totalTime');
         const gong = document.getElementById('gong');
         const themeToggle = document.getElementById('darkModeToggle');
+        const streakVal = document.getElementById('streakVal');
+        const sessionCount = document.getElementById('sessionCount');
+        const totalTimeVal = document.getElementById('totalTimeVal');
 
+        // Theme toggle
         themeToggle.addEventListener('change', () => {
             document.body.setAttribute('data-theme', themeToggle.checked ? 'dark' : 'light');
+            localStorage.setItem('theme', themeToggle.checked ? 'dark' : 'light');
         });
 
-        function timer(seconds) {
-            clearInterval(countdown);
-            const now = Date.now();
-            const then = now + seconds * 1000;
-            const originalMinutes = minutesInput.value;
+        // Load saved theme
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        themeToggle.checked = savedTheme === 'dark';
+        document.body.setAttribute('data-theme', savedTheme);
 
-            isMeditating = true;
-            startBreathing();
-            
-            countdown = setInterval(() => {
-                const secondsLeft = Math.round((then - Date.now()) / 1000);
-
-                if (secondsLeft < 0) {
-                    clearInterval(countdown);
-                    stopBreathing();
-                    
-                    gong.currentTime = 0;
-                    gong.play().catch(e => console.log("Audio play failed. Check gong.mp3.", e));
-                    
-                    saveSession(originalMinutes);
-                    return;
-                }
-                displayTime(secondsLeft);
-            }, 1000);
+        function formatTime(seconds) {
+            const m = Math.floor(seconds / 60);
+            const s = Math.floor(seconds % 60);
+            return `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
-        function startBreathing() {
+        function updateDisplay() {
+            if (isMeditating) return;
+            const totalSeconds = parseInt(minutesInput.value || 5) * 60;
+            display.textContent = formatTime(totalSeconds);
+        }
+
+        minutesInput.addEventListener('input', updateDisplay);
+
+        function startMeditation(minutes) {
+            isMeditating = true;
+            const totalSeconds = minutes * 60;
+            
+            // Play gong sound
+            gong.currentTime = 0;
+            gong.play().catch(e => console.log("Gong play failed:", e));
+
+            // Start breathing animation
             let inhale = true;
             breathingText.textContent = "Inhale";
             circle.classList.add('expand');
+            
             breathingInterval = setInterval(() => {
                 inhale = !inhale;
                 breathingText.textContent = inhale ? "Inhale" : "Exhale";
                 inhale ? circle.classList.add('expand') : circle.classList.remove('expand');
             }, 4000);
+
+            // Start countdown
+            const then = Date.now() + totalSeconds * 1000;
+            countdown = setInterval(() => {
+                const left = Math.round((then - Date.now()) / 1000);
+                if (left < 0) { 
+                    stopMeditation(true, minutes); 
+                    return; 
+                }
+                display.textContent = formatTime(left);
+            }, 1000);
         }
 
-        function stopBreathing() {
+        function stopMeditation(completed, minutes) {
+            clearInterval(countdown);
             clearInterval(breathingInterval);
-            circle.classList.remove('expand');
-            breathingText.textContent = "Done";
-        }
-
-        function displayTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            display.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        function saveSession(mins) {
-            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
-            history.push({
-                date: new Date().toLocaleDateString(),
-                duration: mins
-            });
-            localStorage.setItem('medHistory', JSON.stringify(history));
-            loadHistory();
             isMeditating = false;
+            circle.classList.remove('expand');
+            breathingText.textContent = completed ? "✨ Peace" : "Ready";
+
+            if (completed) {
+                // Play gong at the end
+                gong.currentTime = 0;
+                gong.play().catch(e => console.log("Gong play failed:", e));
+                
+                // Save session
+                saveSession(minutes);
+            }
+            
+            updateDisplay();
         }
 
-        function loadHistory() {
+        function saveSession(minutes) {
             const history = JSON.parse(localStorage.getItem('medHistory')) || [];
+            const today = new Date().toLocaleDateString();
+            
+            history.push({
+                date: today,
+                duration: minutes
+            });
+            
+            localStorage.setItem('medHistory', JSON.stringify(history));
+            updateStats();
+        }
+
+        function calculateStreak() {
+            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
+            if (history.length === 0) return 0;
+
+            let streak = 0;
+            const today = new Date();
+            
+            for (let i = history.length - 1; i >= 0; i--) {
+                const sessionDate = new Date(history[i].date);
+                const expectedDate = new Date(today);
+                expectedDate.setDate(expectedDate.getDate() - streak);
+                
+                if (sessionDate.toLocaleDateString() === expectedDate.toLocaleDateString()) {
+                    streak++;
+                } else {
+                    break;
+                }
+            }
+            
+            return streak;
+        }
+
+        function updateStats() {
+            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
+            
             historyList.innerHTML = '';
-            let total = 0;
+            let totalMinutes = 0;
+            
             history.slice().reverse().forEach(entry => {
+                totalMinutes += entry.duration;
                 const li = document.createElement('li');
                 li.innerHTML = `<span>${entry.date}</span> <span>${entry.duration} min</span>`;
                 historyList.appendChild(li);
-                total += parseInt(entry.duration);
             });
-            totalTimeDisplay.textContent = total;
+
+            const streak = calculateStreak();
+            streakVal.textContent = streak;
+            sessionCount.textContent = history.length;
+            totalTimeVal.textContent = totalMinutes + 'm';
         }
 
         startBtn.addEventListener('click', () => {
+            if (isMeditating) return;
+            
             // Prime audio
             gong.play().then(() => {
                 gong.pause();
                 gong.currentTime = 0;
             }).catch(e => console.log("Audio unlock failed:", e));
 
-            const mins = minutesInput.value;
-            if (mins > 0) timer(mins * 60);
+            const minutes = parseInt(minutesInput.value) || 5;
+            if (minutes > 0) {
+                startMeditation(minutes);
+            }
         });
 
         resetBtn.addEventListener('click', () => {
             clearInterval(countdown);
             clearInterval(breathingInterval);
             isMeditating = false;
-            display.textContent = `${minutesInput.value.padStart(2, '0')}:00`;
             circle.classList.remove('expand');
             breathingText.textContent = "Ready";
             gong.pause();
+            updateDisplay();
         });
 
-        document.getElementById('clearHistory').addEventListener('click', () => {
-            if(confirm("Delete all session history?")) {
+        document.getElementById('clearHistoryBtn').addEventListener('click', () => {
+            if(confirm("Clear all session history? This cannot be undone.")) {
                 localStorage.removeItem('medHistory');
-                loadHistory();
+                updateStats();
             }
         });
 
-        loadHistory();
+        // Initialize
+        updateDisplay();
+        updateStats();
     </script>
 </body>
 </html>
