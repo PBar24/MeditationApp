@@ -1,0 +1,137 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --text-primary: #2c3e50;
+    --accent: #5e72e4;
+    --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+[data-theme="dark"] {
+    --bg-gradient: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    --card-bg: rgba(30, 30, 35, 0.85);
+    --text-primary: #ecf0f1;
+    --accent: #4facfe;
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    background: var(--bg-gradient);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text-primary);
+    transition: all 0.5s ease;
+}
+
+.container {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px); /* Frosty effect */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 2.5rem;
+    width: 380px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+h1 {
+    font-weight: 300;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+}
+
+/* Breathing Circle Refinement */
+.circle-container {
+    position: relative;
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.breathing-circle {
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, var(--accent) 0%, rgba(255,255,255,0) 70%);
+    opacity: 0.6;
+    border-radius: 50%;
+    filter: blur(5px);
+    transition: transform 4s cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+
+.breathing-text {
+    position: absolute;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    opacity: 0.8;
+}
+
+/* Controls & Inputs */
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 20px 0;
+}
+
+input[type="number"] {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid var(--glass-border);
+    color: var(--text-primary);
+    padding: 12px;
+    border-radius: 12px;
+    width: 60px;
+    text-align: center;
+}
+
+button {
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, opacity 0.2s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* History Card */
+.history-section {
+    background: rgba(0,0,0,0.05);
+    border-radius: 15px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+#historyList li {
+    background: rgba(255,255,255,0.05);
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+}
+
+/* Smooth Dark Mode Switch */
+.theme-toggle {
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    padding: 10px;
+    border-radius: 50px;
+    background: var(--card-bg);
+}
