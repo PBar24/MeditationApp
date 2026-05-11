@@ -198,32 +198,10 @@
 
         [minInput, secInput].forEach(i => i.addEventListener('input', updateDisplay));
 
-        function calculateStreak() {
-            const history = JSON.parse(localStorage.getItem('medHistory')) || [];
-            if (history.length === 0) return 0;
-
-            let streak = 0;
-            const today = new Date();
-            
-            for (let i = history.length - 1; i >= 0; i--) {
-                const sessionDate = new Date(history[i].date);
-                const expectedDate = new Date(today);
-                expectedDate.setDate(expectedDate.getDate() - streak);
-                
-                if (sessionDate.toLocaleDateString() === expectedDate.toLocaleDateString()) {
-                    streak++;
-                } else {
-                    break;
-                }
-            }
-            
-            return streak;
-        }
-
         function startMeditation(total) {
             isMeditating = true;
             gong.currentTime = 0;
-            gong.play().catch(e => console.log("Gong play failed:", e));
+            gong.play();
 
             let inhale = true;
             breathingText.textContent = "Inhale";
@@ -252,7 +230,7 @@
 
             if (completed) {
                 gong.currentTime = 0;
-                gong.play().catch(e => console.log("Gong play failed:", e));
+                gong.play();
                 saveToHistory(total);
             }
         }
@@ -261,7 +239,7 @@
             const history = JSON.parse(localStorage.getItem('medHistory')) || [];
             history.push({ 
                 date: new Date().toLocaleDateString(), 
-                duration: totalSecs
+                duration: totalSecs // save raw seconds
             });
             localStorage.setItem('medHistory', JSON.stringify(history));
             updateStats();
@@ -280,8 +258,6 @@
                 list.appendChild(li);
             });
 
-            const streak = calculateStreak();
-            document.getElementById('streakVal').textContent = streak;
             document.getElementById('totalSessVal').textContent = history.length;
             document.getElementById('totalTimeVal').textContent = formatTime(totalSecondsAccumulated);
         }
@@ -292,12 +268,6 @@
 
         document.getElementById('startBtn').addEventListener('click', () => {
             if (isMeditating) return;
-            
-            gong.play().then(() => {
-                gong.pause();
-                gong.currentTime = 0;
-            }).catch(e => console.log("Audio unlock failed:", e));
-
             const total = (parseInt(minInput.value)||0)*60 + (parseInt(secInput.value)||0);
             if (total > 0) startMeditation(total);
         });
