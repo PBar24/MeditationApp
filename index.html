@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zen Flow - Precision Tracking</title>
+    <title>Zen Flow - Always Awake</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -176,6 +176,7 @@
         let countdown;
         let breathingInterval;
         let isMeditating = false;
+        let wakeLock = null; // Stores screen lock state
 
         const display = document.getElementById('display');
         const minInput = document.getElementById('minutes');
@@ -198,8 +199,33 @@
 
         [minInput, secInput].forEach(i => i.addEventListener('input', updateDisplay));
 
+        // --- NEW IMPROVED WAKE LOCK LOGIC ---
+        async function requestWakeLock() {
+            if ('wakeLock' in navigator) {
+                try {
+                    wakeLock = await navigator.wakeLock.request('screen');
+                    console.log('Wake Lock active. Screen will stay awake!');
+                } catch (err) {
+                    console.warn(`Wake Lock request failed: ${err.message}`);
+                }
+            } else {
+                console.log('Wake Lock API not supported in this browser environment.');
+            }
+        }
+
+        function releaseWakeLock() {
+            if (wakeLock !== null) {
+                wakeLock.release().then(() => {
+                    wakeLock = null;
+                    console.log('Wake Lock released.');
+                });
+            }
+        }
+
         function startMeditation(total) {
             isMeditating = true;
+            requestWakeLock(); // Lock screen awake on start
+            
             gong.currentTime = 0;
             gong.play();
 
@@ -224,6 +250,8 @@
             clearInterval(countdown);
             clearInterval(breathingInterval);
             isMeditating = false;
+            releaseWakeLock(); // Let screen sleep again
+            
             circle.classList.remove('expand');
             breathingText.textContent = completed ? "Peace" : "Ready";
             updateDisplay();
@@ -237,10 +265,7 @@
 
         function saveToHistory(totalSecs) {
             const history = JSON.parse(localStorage.getItem('medHistory')) || [];
-            history.push({ 
-                date: new Date().toLocaleDateString(), 
-                duration: totalSecs // save raw seconds
-            });
+            history.push({ date: new Date().toLocaleDateString(), duration: totalSecs });
             localStorage.setItem('medHistory', JSON.stringify(history));
             updateStats();
         }
@@ -274,6 +299,13 @@
 
         document.getElementById('resetBtn').addEventListener('click', () => stopMeditation(false));
         updateStats();
+
+        // Re-request wake lock if tab is hidden and comes back to focus
+        document.addEventListener('visibilitychange', async () => {
+            if (wakeLock !== null && document.visibilityState === 'visible' && isMeditating) {
+                await requestWakeLock();
+            }
+        });
     </script>
 </body>
 </html>
